@@ -1,0 +1,57 @@
+/* RESET */
+/* -----#------------------------------------ */
+*,html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,label,fieldset,input,p,blockquote,th,td{margin:0; padding:0;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img {border:0 none;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+ol,ul,li{list-style:none outside none;}
+caption,th{text-align:left;}
+table p{display: inline;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before,q:after{content:"";}
+a img { border:medium none;}
+img{border:medium none;display:block;}
+a{color: #000; text-decoration:none;}
+a:hover {color: #E7BF3A;}
+strong{font-weight: bold;}
+iframe{display: block;}
+
+.last { margin-right: 0!important; }
+.fl { float: left }
+.fr { float: right }
+.no-margin{ margin: 0!important; }
+.mt-50 { margin-top: 50px; }
+.no-border {border: none!important;}
+.text-align-center { text-align: center!important;}
+.clearfix:after { clear: both; content: ""; display: block; height: 0; }
+
+*
+{ transition:all 300ms;-moz-transition:all 300ms; /* Firefox 4 */-webkit-transition:all 300ms; /* Safari and Chrome */-o-transition:all 300ms; /* Opera */ }
+
+nav ul>li>ul, .accordion-content
+{ transition:all 0ms;-moz-transition:all 0ms; /* Firefox 4 */-webkit-transition:all 0ms; /* Safari and Chrome */-o-transition:all 0ms; /* Opera */ }
+
+p { color: #444; line-height: 13px; line-height: 22px; font-family: 'Open Sans', Arial, sans-serif; }
+
+h1 { font-size: 40px; color: #2c2f36; font-weight: 600; text-transform: uppercase; }
+h2 { font-size: 30px; color: #2c2f36; font-weight: 300; text-transform: uppercase;}
+h3 { font-size: 22px; color: #2c2f36; font-weight: 400; text-transform: uppercase;}
+h4 { font-size: 16px; color: #2c2f36; font-weight: 400; }
+h5 { font-size: 15px; color: #2c2f36; font-weight: 400; }
+h6 { font-size: 13px; color: #2c2f36; font-weight: 400; }
+a h1:hover, a h2:hover {
+	color: #E7BF3A;
+}
+/************** Master ***************/
+/* ----------------------------------------- */
+/************** General Sections **************/
+body { 
+	font-family: 'Roboto Condensed', Open Sans, Arial, sans-serif;
+	font-size: 13px;
+	background-color: #2c2f36;
+}
+
+header{
+	background: #2c2f36;
+	border-bottom: 5px solid rgba(0,0,0,0.3);	
+}

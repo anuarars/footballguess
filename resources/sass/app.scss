@@ -1,0 +1,152 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+body{
+    font-size: 13px;
+}
+
+header{
+    width: 100%;
+}
+
+nav{
+    background: #2c2f36;
+    border-bottom: 5px solid rgba(0,0,0,0.3);
+    border-top: 5px solid #E7BF3A;
+    
+    ul{
+        padding-left: 0;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        li{
+            background: #2c2f36;
+            text-align: center;
+            padding: 20px;
+            list-style-type: none;
+            a{
+                text-transform: none;
+                font-size: 15px;
+                display: block;
+                cursor: pointer;
+                text-decoration: none;
+                color: #828691;
+                &:hover{
+                    color: #E7BF3A;
+                    text-decoration: none;
+                }
+            }
+            &:hover {
+                background: #3f444a;
+                a{
+                    color: #E7BF3A;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+// components
+
+.bg-dark-blue {
+	background: #2c2f36;
+}
+
+.bg-dark-blue p {
+	color: #fff;
+}
+.bg-dark-blue h2 {
+	color: #fff;
+}
+
+.content {
+	padding: 60px 45px;
+    color: #fff;
+    // padding: 30px 20px;
+}
+
+.title-default {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 30px;
+	background-color: rgba(0,0,0,0.3);
+}
+.title-default h2 {
+	color: #fff;
+	padding: 10px 30px;
+	text-transform: none;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+// table
+
+.table-default {
+	width: 100%;
+}
+
+.table-default tr td {
+	padding: 10px;
+	font-size: 14px;
+}
+.table-default tr:hover  td{
+	background: #3f444a;
+}
+.table-default a {
+	color: #E7BF3A!important;
+}
+.table-default thead tr td {
+	background: #14161b;
+}
+
+.table-default tbody tr td {
+	background: #1F2126;
+	border-bottom: 1px solid #2b2d32;
+}
+
+.table-default tbody tr:hover td {
+	background: #3f444a;
+}
+
+.table-default tr.t-header td {
+	background: #14161b;
+	border-bottom: none;	
+}
+.table-default tr.t-header:hover td {
+	background: #14161b;	
+}
+
+.table-default tr td i {
+	float: right;
+}
+
+.table-default .countdown-mini div {
+	padding: 0 10px;
+}
+
+.table-default .countdown-mini {
+	float: right;
+}
+
+.table-default span {
+	padding: 0 15px;
+}
