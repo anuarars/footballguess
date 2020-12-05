@@ -18,8 +18,8 @@ class CreateGuessesTable extends Migration
             $table->integer('user_id');
             $table->integer('schedule_id');
             $table->integer('matchday');
-            $table->integer('homeTeamId');
-            $table->integer('awayTeamId');
+            $table->integer('homeTeamId')->nullable();
+            $table->integer('awayTeamId')->nullable();
             $table->integer('FThomeTeam')->nullable();
             $table->integer('FTawayTeam')->nullable();
             $table->integer('points')->nullable();

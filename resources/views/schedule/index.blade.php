@@ -3,21 +3,22 @@
 @section('content')
     <div class="content">
         <div class="title-default">
-            <h2>Table Style 01</h2>	
+            <h2>Расписание</h2>	
         </div>
         <table class="table-default">
+            @foreach ($schedules as $day => $schedule)
             <tr class="t-header">
-                <td colspan="5" class="score-date">Sat 5th Apr</td>
+                <td colspan="5" class="score-date">{{$day}}</td>
             </tr>
-
-            @foreach ($schedules as $schedule)
-                <tr>
-                    <td>FT</td>
-                    <td>{{$schedule->homeTeamName}}</td>
-                    <td><span>{{$schedule->score->FThomeTeam}}-{{$schedule->score->FTawayTeam}}</span></td>
-                    <td>{{$schedule->awayTeamName}}</td>
-                    <td title="Online TV" title="Online TV"><a href="#"><i class="fa fa-desktop"></i></a></td>
-                </tr>
+                @foreach ($schedule as $match)
+                    <tr>
+                        <td>FT</td>
+                    <td></td>
+                        <td>{{$match->homeTeamName}}</td>
+                        <td><span>{{$match->score->FThomeTeam}}-{{$match->score->FTawayTeam}}</span></td>
+                        <td>{{$match->awayTeamName}}</td>
+                    </tr>
+                @endforeach
             @endforeach
         </table>
         <form action="{{route('schedule.index')}}" method="GET">

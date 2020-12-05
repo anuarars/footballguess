@@ -8,6 +8,7 @@ use App\Models\Season;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
@@ -68,13 +69,13 @@ class ScheduleController extends Controller
                 'PTawayTeam' => $match->score->penalties->awayTeam,
             ]);
         }
-        
-        $schedules = Schedule::whereBetween('utcDate',[$dateFrom, $dateTo])->groupBy('utcDate')->get();
+    
 
-        // $schedules = Schedule::orderBy('matchday')->get()->groupBy(function($item) {
-        //     return $item->matchday;
-        // });
-        dd($schedules);
+        $schedules = Schedule::whereBetween('utcDate',[$dateFrom, $dateTo])->orderBy('utcDate')->get()->groupBy(function($item) {
+            return Carbon::parse($item->utcDate)->format('Y-m-d');
+        });
+
+
         return view('schedule.index',compact('schedules'));
     }
 }
