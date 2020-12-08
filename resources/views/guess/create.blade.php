@@ -5,7 +5,7 @@
         <div class="title-default">
             <h2>Тотализатор</h2>	
         </div>
-        <form action="{{route('guess.store')}}" method="POST">
+        <form action="{{route('guess.store', $matchday)}}" method="POST">
             @csrf
             <table class="table-default">
                 <tr class="t-header">
@@ -43,5 +43,34 @@
                 <button type="submit" class="button white">Сделать прогноз</button>
             </div>
         </form>
+        <div class="title-default">
+            <h2>Таблица игроков</h2>	
+        </div>
+        <table class="table-default">
+            <tr class="t-header">
+                <td rowspan="3">Пользователь</td>
+                    @foreach ($schedules as $match)
+                        <td>{{$match->homeTeamName}}</td>
+                    @endforeach
+            </tr>
+            <tr>
+                @foreach ($schedules as $match)
+                <td>{{$match->awayTeamName}}</td>
+                @endforeach
+            </tr>
+            <tr>
+                @foreach ($schedules as $match)
+                <td>{{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}</td>
+                @endforeach
+            </tr>
+            @foreach ($users as $user)
+                <tr>
+                    <td>{{$user->name}}</td>
+                    @foreach ($user->guess->where('matchday', 11) as $item)
+                        <td>{{$item->FThomeTeam}} : {{$item->FTawayTeam}}({{$item->points}})</td>
+                    @endforeach
+                </tr>	
+            @endforeach																		
+        </table> <!-- Table Scores -->
     </div>
 @endsection

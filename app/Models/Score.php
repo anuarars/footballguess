@@ -10,7 +10,7 @@ class Score extends Model
         'schedule_id', 'HThomeTeam', 'HTawayTeam', 'FThomeTeam', 'FTawayTeam', 'EThomeTeam', 'ETawayTeam', 'PThomeTeam','PTawayTeam'
     ];
 
-    // public function schedule(){
-    //     return $this->belongsTo(Schedule::class);
-    // }
+    public function schedule(){
+        return $this->belongsTo(Schedule::class);
+    }
 }

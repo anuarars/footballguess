@@ -30,5 +30,5 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('/guess', 'GuessController@index')->name('guess.index');
     Route::get('/guess/table', 'GuessController@tableByMatchday')->name('guess.table.matchday');
     Route::get('/guess/{matchday}', 'GuessController@show')->name('guess.show');
-    Route::post('/guess/store', 'GuessController@store')->name('guess.store');
+    Route::post('/guess/store/{matchday}', 'GuessController@store')->name('guess.store');
 });

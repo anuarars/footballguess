@@ -44,12 +44,25 @@
 					<li><a href="{{route('schedule.index')}}">Расписание</a></li>
 					<li><a href="{{route('guess.index')}}">Тотализатор</a></li>
 					<li><a href="">Команды</a></li>
+					@guest
+						<li><a href="{{ route('login') }}">Войти</a></li>
+					@else
+						<li><a href="#">{{ Auth::user()->name }}</a></li>
+						<li>
+							<a href="{{ route('logout')}}" onclick="event.preventDefault();
+							document.getElementById('logout-form').submit();">Выйти
+							</a>
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+								@csrf
+							</form>
+						</li>
+					@endguest
 				</ul>
 			</nav>
 		</header>
 		<main>
 			<section class="bg-dark-blue">
-				<div class="container">
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12">
 							@yield('content')

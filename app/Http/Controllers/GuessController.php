@@ -73,26 +73,52 @@ class GuessController extends Controller
             ]);
         }
 
-        $schedules = Schedule::where('matchday', $matchday)->orderBy('utcDate')->get();
-        return view('guess.create', compact('schedules'));
+        $users = User::all();
+        $schedules = Schedule::where([['matchday', 11],['status', 'FINISHED']])->with('score')->get();
+        $guesses = Guess::where('matchday', $matchday)->get();
+            foreach($schedules as $schedule){
+                $guess = Guess::where('schedule_id', $schedule->id)->get();
+                
+                if(isset($guess->FThomeTeam) && isset($schedule->score->FThomeTeam)){
+                    if($schedule->score->FThomeTeam == $guess->FThomeTeam){
+                        Guess::where('schedule_id', $schedule->id)->update([
+                            'points'=>3
+                        ]);
+                    }elseif($schedule->score->FThomeTeam - $schedule->score->FTawayTeam === $guess->FThomeTeam - $guess->FTawayTeam){
+                        Guess::where('schedule_id', $schedule->id)->update([
+                            'points'=>2
+                        ]);
+                    }else{
+                        Guess::where('schedule_id', $schedule->id)->update([
+                            'points'=>0
+                    ]);
+                }
+            }
+        }
+        return view('guess.create', compact('schedules', 'users', 'matchday'));
     }
 
     public function store(Request $request){
         $homeTeam = $request->FThomeTeam;
         $awayTeam = $request->FTawayTeam;
 
+        $schedules = Schedule::where('matchday', $request->matchday)->get();
+        foreach($schedules as $schedule){
+            Guess::create([
+                'user_id' => Auth::id(),
+                'schedule_id' => $schedule->id,
+                'matchday' => $request->matchday,
+                'homeTeamId' => $schedule->homeTeamId,
+                'awayTeamId' => $schedule->awayTeamId
+            ]);
+        }
+
+        //REFACTOR expected----->
         foreach($homeTeam as $scheduleId => $matchday){
             foreach($matchday as $matchday => $homeTeamId){
                 foreach($homeTeamId as $homeTeamId => $score){
                     foreach($score as $score){
-                        Guess::updateOrCreate([
-                            'user_id' => Auth::id(),
-                            'schedule_id' => $scheduleId,
-                        ],[
-                            'user_id' => Auth::id(),
-                            'schedule_id' => $scheduleId,
-                            'matchday' => $matchday,
-                            'homeTeamId' => $homeTeamId,
+                        Guess::where([['schedule_id', $scheduleId],['user_id', Auth::id()]])->update([
                             'FThomeTeam' => $score
                         ]);
                     }
@@ -104,13 +130,14 @@ class GuessController extends Controller
                 foreach($awayTeamId as $awayTeamId => $score){
                     foreach($score as $score){
                         Guess::where([['schedule_id', $scheduleId],['user_id', Auth::id()]])->update([
-                            'awayTeamId' => $awayTeamId,
                             'FTawayTeam' => $score
                         ]);
                     }
                 }
             }
         }
+        //<-----REFACTOR expected
+
         return redirect()->back();
     }
 
