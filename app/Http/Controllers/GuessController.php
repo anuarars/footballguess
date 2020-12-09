@@ -74,27 +74,34 @@ class GuessController extends Controller
         }
 
         $users = User::all();
-        $schedules = Schedule::where([['matchday', 11],['status', 'FINISHED']])->with('score')->get();
+        $schedules = Schedule::where('matchday', $matchday)->with('score')->get();
         $guesses = Guess::where('matchday', $matchday)->get();
             foreach($schedules as $schedule){
-                $guess = Guess::where('schedule_id', $schedule->id)->get();
-                
-                if(isset($guess->FThomeTeam) && isset($schedule->score->FThomeTeam)){
-                    if($schedule->score->FThomeTeam == $guess->FThomeTeam){
+                $guess = Guess::where('schedule_id', $schedule->id)->first();
+                if(isset($guess->FThomeTeam) && isset($guess->FTawayTeam) && isset($schedule->score->FThomeTeam) && isset($schedule->score->FTawayTeam)){
+                    if($schedule->score->FThomeTeam === $guess->FThomeTeam && $schedule->score->FTawayTeam === $guess->FTawayTeam){
                         Guess::where('schedule_id', $schedule->id)->update([
                             'points'=>3
                         ]);
-                    }elseif($schedule->score->FThomeTeam - $schedule->score->FTawayTeam === $guess->FThomeTeam - $guess->FTawayTeam){
+                    }elseif($schedule->score->FThomeTeam - $schedule->score->FTawayTeam == $guess->FThomeTeam - $guess->FTawayTeam){
                         Guess::where('schedule_id', $schedule->id)->update([
                             'points'=>2
+                        ]);
+                    }elseif($schedule->score->FThomeTeam > $schedule->score->FTawayTeam && $guess->FThomeTeam > $guess->FTawayTeam){
+                        Guess::where('schedule_id', $schedule->id)->update([
+                            'points'=>1
+                        ]);
+                    }elseif($schedule->score->FThomeTeam < $schedule->score->FTawayTeam && $guess->FThomeTeam < $guess->FTawayTeam){
+                        Guess::where('schedule_id', $schedule->id)->update([
+                            'points'=>1
                         ]);
                     }else{
                         Guess::where('schedule_id', $schedule->id)->update([
                             'points'=>0
-                    ]);
+                        ]);
+                    }
                 }
             }
-        }
         return view('guess.create', compact('schedules', 'users', 'matchday'));
     }
 
