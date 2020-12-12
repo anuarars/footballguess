@@ -9,7 +9,8 @@
 
 
 body{
-    font-size: 13px;
+	font-size: 13px;
+	background-color: #2c2f36;
 }
 
 header{
@@ -86,7 +87,6 @@ nav{
 .title-default {
 	display: inline-block;
 	width: 100%;
-	margin-bottom: 30px;
 	background-color: rgba(0,0,0,0.3);
 }
 .title-default h2 {
@@ -121,6 +121,9 @@ nav{
 .table-default tr td {
 	padding: 10px;
 	font-size: 14px;
+	li{
+		list-style: none;
+	}
 }
 .table-default tr:hover  td{
 	background: #3f444a;
@@ -143,7 +146,20 @@ nav{
 
 .table-default tr.t-header td {
 	background: #14161b;
-	border-bottom: none;	
+	border-bottom: none;
+	ul{
+		padding-left: 0;
+		list-style-type: none;
+		margin-bottom: 0;
+		li{
+			padding: 10px;
+			text-align: center;
+			height: 70px;
+			// &:nth-child(2){
+			// 	background-color: #1F2126;
+			// }
+		}
+	}	
 }
 .table-default tr.t-header:hover td {
 	background: #14161b;	
@@ -173,7 +189,6 @@ nav{
 
 
 .button {
-	margin-top: 20px;
 	display: inline-block;
 	padding: 10px 30px;
 	text-decoration: none;
@@ -321,4 +336,77 @@ nav{
 	color: #ffd800;
 	border: 1px solid #E7BF3A;
 	background: none;
+}
+
+.form{
+	max-width: 500px;
+	margin: auto;
+}
+
+.form-input{
+	display: flex;
+    justify-content: center;
+	align-items: center;
+	padding: 10px 0;
+
+	.form-alert{
+		color: #ff0;
+		display: block;
+		text-align: center;
+		width: 100%;
+		margin-top: 0.25rem;
+		font-size: 80%;
+	}
+	
+	input{
+		width: 100%;
+		padding: 10px 0;
+		font-size: 13px;
+		font-family: Arial, sans-serif;
+		border: none;
+		text-align: center;
+		outline: none;
+	}
+
+	.checkbox{
+		width: 30px;
+	}
+
+	label{
+		margin: 0;
+	}
+
+	a{
+		color: #fff;
+		text-decoration: none;
+		font-weight: 400;
+		&:hover{
+			color: #ff0;
+		}
+	}
+}
+
+
+.match{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	.match__status{
+		width: 15%;
+		// flex-basis: 35px;
+	}
+	.match__teamname{
+		width: 35%;
+	}
+	.match__score{
+		width: 15%;
+	}
+}
+
+.blink {
+	animation: blinker 2s linear infinite;
+  }
+
+@keyframes blinker {  
+	50% { opacity: 0; }
 }

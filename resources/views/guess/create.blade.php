@@ -12,16 +12,43 @@
                     <td colspan="5" class="score-date">55</td>
                 </tr>
                 @foreach ($schedules as $match)
-                    <tr>
-                        <td>FT</td>
-                    <td></td>
-                        <td>{{$match->homeTeamName}}</td>
-                        <td>
+                    <tr class="match">
+                        <td class="match__status">
+                            @switch($match->status)
+                                @case('FINISHED')
+                                    <span class="text-success">Завершился</span>
+                                    @break
+                                @case('IN_PLAY')
+                                    <span class="text-danger blink">
+                                        @if (\Carbon\Carbon::parse($match->utcDate)->diffInMinutes(now())>60)
+                                            {{\Carbon\Carbon::parse($match->utcDate)->diffInMinutes(now())-15}}
+                                        @else
+                                            {{\Carbon\Carbon::parse($match->utcDate)->diffInMinutes(now())}}
+                                        @endif
+                                        '
+                                    </span>
+                                    @break
+                                @case('PAUSED')
+                                    <span class="text-primary">Перерыв</span>
+                                    @break
+                                @case('SCHEDULED')
+                                    <span class="text-warning">
+                                        {{\Carbon\Carbon::parse($match->utcDate)->diffForHumans()}}
+                                    </span>
+                                    @break
+                            @endswitch
+                        </td>
+                        <td class="match__teamname">{{$match->homeTeamName}}</td>
+                        <td class="text-center match__score">
                             <span>
                                 @if ($match->status == "FINISHED")
-                                    {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}
-                                @elseif ($match->status == "IN_PLAY")
-                                {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}} <span>live</span>
+                                    <span class="text-success">
+                                        {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}
+                                    </span>
+                                @elseif ($match->status == "IN_PLAY" || $match->status == "PAUSED" )
+                                    <span class="text-danger blink">
+                                        {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}
+                                    </span>
                                 @else
                                     @if (count(Auth::user()->guess->where('schedule_id', $match->id))>0)
                                         @foreach (Auth::user()->guess->where('schedule_id', $match->id) as $guess)
@@ -35,11 +62,11 @@
                                 @endif
                             </span>
                         </td>
-                        <td>{{$match->awayTeamName}}</td>
+                        <td class="match__teamname">{{$match->awayTeamName}}</td>
                     </tr>
                 @endforeach
             </table>
-            <div class="text-center">
+            <div class="text-center m-3">
                 <button type="submit" class="button white">Сделать прогноз</button>
             </div>
         </form>
@@ -48,26 +75,26 @@
         </div>
         <table class="table-default">
             <tr class="t-header">
-                <td rowspan="3">Пользователь</td>
+                <td>Пользователь</td>
                     @foreach ($schedules as $match)
-                        <td>{{$match->homeTeamName}}</td>
+                        <td class="p-0">
+                            <ul>
+                                <li>{{$match->homeTeamName}}</li>
+                                <li>{{$match->awayTeamName}}</li>
+                                <li>{{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}</li>
+                            </ul> 
+                        </td>
                     @endforeach
-            </tr>
-            <tr>
-                @foreach ($schedules as $match)
-                <td>{{$match->awayTeamName}}</td>
-                @endforeach
-            </tr>
-            <tr>
-                @foreach ($schedules as $match)
-                <td>{{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}</td>
-                @endforeach
+                <td>Всего</td>
             </tr>
             @foreach ($users as $user)
                 <tr>
                     <td>{{$user->name}}</td>
-                    @foreach ($user->guess->where('matchday', 11) as $item)
-                        <td>{{$item->FThomeTeam}} : {{$item->FTawayTeam}}({{$item->points}})</td>
+                    @foreach ($user->guess->where('matchday', $matchday) as $item)
+                        <td class="text-center">
+                            <li>{{$item->FThomeTeam}} : {{$item->FTawayTeam}}</li>
+                            <li>{{$item->points}}</li>
+                        </td>
                     @endforeach
                 </tr>	
             @endforeach																		

@@ -61,15 +61,13 @@
 			</nav>
 		</header>
 		<main>
-			<section class="bg-dark-blue">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-md-12">
-							@yield('content')
-						</div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						@yield('content')
 					</div>
 				</div>
-			</section>
+			</div>
 		</main>
 	</div>
 </body>

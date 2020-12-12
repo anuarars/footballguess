@@ -77,28 +77,31 @@ class GuessController extends Controller
         $schedules = Schedule::where('matchday', $matchday)->with('score')->get();
         $guesses = Guess::where('matchday', $matchday)->get();
             foreach($schedules as $schedule){
-                $guess = Guess::where('schedule_id', $schedule->id)->first();
-                if(isset($guess->FThomeTeam) && isset($guess->FTawayTeam) && isset($schedule->score->FThomeTeam) && isset($schedule->score->FTawayTeam)){
-                    if($schedule->score->FThomeTeam === $guess->FThomeTeam && $schedule->score->FTawayTeam === $guess->FTawayTeam){
-                        Guess::where('schedule_id', $schedule->id)->update([
-                            'points'=>3
-                        ]);
-                    }elseif($schedule->score->FThomeTeam - $schedule->score->FTawayTeam == $guess->FThomeTeam - $guess->FTawayTeam){
-                        Guess::where('schedule_id', $schedule->id)->update([
-                            'points'=>2
-                        ]);
-                    }elseif($schedule->score->FThomeTeam > $schedule->score->FTawayTeam && $guess->FThomeTeam > $guess->FTawayTeam){
-                        Guess::where('schedule_id', $schedule->id)->update([
-                            'points'=>1
-                        ]);
-                    }elseif($schedule->score->FThomeTeam < $schedule->score->FTawayTeam && $guess->FThomeTeam < $guess->FTawayTeam){
-                        Guess::where('schedule_id', $schedule->id)->update([
-                            'points'=>1
-                        ]);
-                    }else{
-                        Guess::where('schedule_id', $schedule->id)->update([
-                            'points'=>0
-                        ]);
+                $guessesUpdate = Guess::where('schedule_id', $schedule->id)->get();
+                foreach($guessesUpdate as $guess){
+                    if(isset($guess->FThomeTeam) && isset($guess->FTawayTeam) && isset($schedule->score->FThomeTeam) && isset($schedule->score->FTawayTeam)
+                    ){
+                        if($schedule->score->FThomeTeam === $guess->FThomeTeam && $schedule->score->FTawayTeam === $guess->FTawayTeam){
+                            Guess::where('schedule_id', $schedule->id)->update([
+                                'points'=>3
+                            ]);
+                        }elseif($schedule->score->FThomeTeam - $schedule->score->FTawayTeam == $guess->FThomeTeam - $guess->FTawayTeam){
+                            Guess::where('schedule_id', $schedule->id)->update([
+                                'points'=>2
+                            ]);
+                        }elseif($schedule->score->FThomeTeam > $schedule->score->FTawayTeam && $guess->FThomeTeam > $guess->FTawayTeam){
+                            Guess::where('schedule_id', $schedule->id)->update([
+                                'points'=>1
+                            ]);
+                        }elseif($schedule->score->FThomeTeam < $schedule->score->FTawayTeam && $guess->FThomeTeam < $guess->FTawayTeam){
+                            Guess::where('schedule_id', $schedule->id)->update([
+                                'points'=>1
+                            ]);
+                        }else{
+                            Guess::where('schedule_id', $schedule->id)->update([
+                                'points'=>0
+                            ]);
+                        }
                     }
                 }
             }

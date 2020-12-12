@@ -10930,6 +10930,7 @@ a.text-dark:focus {
 
 body {
   font-size: 13px;
+  background-color: #2c2f36;
 }
 
 header {
@@ -11003,7 +11004,6 @@ nav ul li:hover a {
 .title-default {
   display: inline-block;
   width: 100%;
-  margin-bottom: 30px;
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -11042,6 +11042,10 @@ nav ul li:hover a {
   font-size: 14px;
 }
 
+.table-default tr td li {
+  list-style: none;
+}
+
 .table-default tr:hover td {
   background: #3f444a;
 }
@@ -11068,6 +11072,18 @@ nav ul li:hover a {
   border-bottom: none;
 }
 
+.table-default tr.t-header td ul {
+  padding-left: 0;
+  list-style-type: none;
+  margin-bottom: 0;
+}
+
+.table-default tr.t-header td ul li {
+  padding: 10px;
+  text-align: center;
+  height: 70px;
+}
+
 .table-default tr.t-header:hover td {
   background: #14161b;
 }
@@ -11089,7 +11105,6 @@ nav ul li:hover a {
 }
 
 .button {
-  margin-top: 20px;
   display: inline-block;
   padding: 10px 30px;
   text-decoration: none;
@@ -11258,5 +11273,89 @@ nav ul li:hover a {
   color: #ffd800;
   border: 1px solid #E7BF3A;
   background: none;
+}
+
+.form {
+  max-width: 500px;
+  margin: auto;
+}
+
+.form-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.form-input .form-alert {
+  color: #ff0;
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+}
+
+.form-input input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+  border: none;
+  text-align: center;
+  outline: none;
+}
+
+.form-input .checkbox {
+  width: 30px;
+}
+
+.form-input label {
+  margin: 0;
+}
+
+.form-input a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.form-input a:hover {
+  color: #ff0;
+}
+
+.match {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.match .match__status {
+  width: 15%;
+}
+
+.match .match__teamname {
+  width: 35%;
+}
+
+.match .match__score {
+  width: 15%;
+}
+
+.blink {
+  -webkit-animation: blinker 2s linear infinite;
+          animation: blinker 2s linear infinite;
+}
+
+@-webkit-keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
 
