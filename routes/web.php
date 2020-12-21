@@ -28,7 +28,7 @@ Route::get('/teams', 'TeamController@index')->name('team.index');
 Route::group(['middleware'=>['auth']], function(){
     Route::get('/profile/{id}', 'ProfileController@index')->name('profile.index');
     Route::get('/guess', 'GuessController@index')->name('guess.index');
-    Route::get('/guess/table', 'GuessController@tableByMatchday')->name('guess.table.matchday');
+    Route::get('/guess/rank', 'GuessController@rank')->name('guess.rank');
     Route::get('/guess/{matchday}', 'GuessController@show')->name('guess.show');
     Route::post('/guess/store/{matchday}', 'GuessController@store')->name('guess.store');
 });

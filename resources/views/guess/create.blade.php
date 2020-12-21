@@ -7,9 +7,9 @@
         </div>
         <form action="{{route('guess.store', $matchday)}}" method="POST">
             @csrf
-            <table class="table-default">
+            <table class="table-default" id="guess">
                 <tr class="t-header">
-                    <td colspan="5" class="score-date">55</td>
+                    <td colspan="5" class="score-date text-center">Тур {{$matchday}}</td>
                 </tr>
                 @foreach ($schedules as $match)
                     <tr class="match">
@@ -33,13 +33,13 @@
                                     @break
                                 @case('SCHEDULED')
                                     <span class="text-warning">
-                                        {{\Carbon\Carbon::parse($match->utcDate)->diffForHumans()}}
+                                        {{\Carbon\Carbon::parse($match->utcDate)->format('d.m H:i')}}
                                     </span>
                                     @break
                             @endswitch
                         </td>
-                        <td class="match__teamname">{{$match->homeTeamName}}</td>
-                        <td class="text-center match__score">
+                        <td class="match__teamname text-center">{{$match->homeTeamName}}</td>
+                        <td class="match__score text-center">
                             <span>
                                 @if ($match->status == "FINISHED")
                                     <span class="text-success">
@@ -62,18 +62,24 @@
                                 @endif
                             </span>
                         </td>
-                        <td class="match__teamname">{{$match->awayTeamName}}</td>
+                        <td class="match__teamname text-center">{{$match->awayTeamName}}</td>
                     </tr>
                 @endforeach
             </table>
             <div class="text-center m-3">
-                <button type="submit" class="button white">Сделать прогноз</button>
+                <button type="submit" class="button white">
+                    @if (count(Auth::user()->guess->where('schedule_id', $match->id))>0)
+                        Обновить прогноз
+                    @else
+                        Сделать прогноз
+                    @endif
+                </button>
             </div>
         </form>
         <div class="title-default">
             <h2>Таблица игроков</h2>	
         </div>
-        <table class="table-default">
+        <table class="table-default" id="points">
             <tr class="t-header">
                 <td>Пользователь</td>
                     @foreach ($schedules as $match)
@@ -88,14 +94,25 @@
                 <td>Всего</td>
             </tr>
             @foreach ($users as $user)
-                <tr>
+                <tr id="{{$user->id}}">
                     <td>{{$user->name}}</td>
-                    @foreach ($user->guess->where('matchday', $matchday) as $item)
+                    
+                    @foreach ($user->guess->where('matchday', $matchday)->sortBy('utcDate') as $guess)
                         <td class="text-center">
-                            <li>{{$item->FThomeTeam}} : {{$item->FTawayTeam}}</li>
-                            <li>{{$item->points}}</li>
+                            @if (Auth::id()==$user->id)
+                                <li>{{$guess->FThomeTeam}} : {{$guess->FTawayTeam}}</li>
+                                <li class="point">{{$guess->points ?? '0'}}</li>
+                            @elseif (now() > $guess->utcDate)
+                                <li>{{$guess->FThomeTeam}} : {{$guess->FTawayTeam}}</li>
+                                <li class="point">{{$guess->points ?? '0'}}</li>
+                            @else
+                                <li> : </li>
+                                <li> - </li>
+                            @endif
                         </td>
                     @endforeach
+                    
+                    <td>{{$user->guess->where('matchday', $matchday)->sum('points')}}</td>
                 </tr>	
             @endforeach																		
         </table> <!-- Table Scores -->

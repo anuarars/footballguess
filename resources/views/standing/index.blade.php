@@ -5,7 +5,7 @@
         <div class="title-default">
             <h2>Турнирная таблица</h2>	
         </div>
-        <table class="table-default">
+        <table class="table-default" id="standing">
             <tr class="t-header">
                 <td>#</td>
                 <td>Команда</td>

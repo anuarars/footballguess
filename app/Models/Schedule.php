@@ -13,4 +13,8 @@ class Schedule extends Model
     public function score(){
         return $this->hasOne(Score::class);
     }
+
+    public function guesses(){
+        return $this->hasMany(Guess::class);
+    }
 }

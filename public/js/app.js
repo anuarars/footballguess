@@ -49798,6 +49798,23 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+// $('tr').each(function () {
+//     var row = $(this);
+//     var rowTotal = 0;
+//     $(this).find('td li.point').each(function () {
+//         var td = $(this);
+//         if ($.isNumeric(td.text())) {
+//             rowTotal += parseFloat(td.text());
+//         }
+//     });
+//     row.find('td.total').text(rowTotal);
+// });
+
+var columnsCount = $(".table-default#rank").find("tr:first td").length;
+
+if (columnsCount > 21) {
+  $('.table-default#rank tr td:not(:first-child):not(:nth-last-child(-n+21)').css('display', 'none');
+}
 
 /***/ }),
 

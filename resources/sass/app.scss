@@ -6,6 +6,7 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-table/dist/bootstrap-table.min.css';
 
 
 body{
@@ -177,9 +178,9 @@ nav{
 	float: right;
 }
 
-.table-default span {
-	padding: 0 15px;
-}
+// .table-default span {
+// 	padding: 0 10px;
+// }
 
 
 
@@ -392,11 +393,14 @@ nav{
 	flex-direction: row;
 	flex-wrap: wrap;
 	.match__status{
-		width: 15%;
+		width: 10%;
 		// flex-basis: 35px;
 	}
 	.match__teamname{
-		width: 35%;
+		width: 33%;
+		&:last-child{
+			width: 42%;
+		}
 	}
 	.match__score{
 		width: 15%;
@@ -409,4 +413,32 @@ nav{
 
 @keyframes blinker {  
 	50% { opacity: 0; }
+}
+
+@media screen and (max-width: 950px) {
+	.table-default#rank tr td:not(:first-child):not(:nth-last-child(-n+10)){
+		display: none;
+	}
+}
+
+@media screen and (max-width: 750px) {
+	.content{
+		padding: 0;
+	}
+	.table-default#rank tr td:not(:first-child):not(:nth-last-child(-n+8)){
+		display: none;
+	}
+	.container-fluid{
+		padding: 0;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.table-default#rank tr td:not(:first-child):not(:nth-last-child(-n+4)){
+		display: none;
+	}
+
+	.table-default#standing tr td:not(:first-child):not(:nth-child(2)):not(:last-child):not(:nth-child(3)){
+		display: none;
+	}
 }
