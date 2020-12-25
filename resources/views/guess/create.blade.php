@@ -13,6 +13,29 @@
                 </tr>
                 @foreach ($schedules as $match)
                     <tr class="match">
+                        <td class="match__hometeam text-center">{{$match->homeTeamName}}</td>
+                        <td class="match__score text-center">
+                            @if ($match->status == "FINISHED")
+                                <span class="text-success">
+                                    {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}
+                                </span>
+                            @elseif ($match->status == "IN_PLAY" || $match->status == "PAUSED" )
+                                <span class="text-danger blink">
+                                    {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}
+                                </span>
+                            @else
+                                @if (count(Auth::user()->guess->where('schedule_id', $match->id))>0)
+                                    @foreach (Auth::user()->guess->where('schedule_id', $match->id) as $guess)
+                                        <input type="text" name="FThomeTeam[{{$match->id}}][{{$match->matchday}}][{{$match->homeTeamId}}][]" value="{{$guess->FThomeTeam}}"> <span class="delimiter">:</span> 
+                                        <input type="text" name="FTawayTeam[{{$match->id}}][{{$match->matchday}}][{{$match->awayTeamId}}][]" value="{{$guess->FTawayTeam}}">
+                                    @endforeach
+                                @else
+                                        <input type="text" name="FThomeTeam[{{$match->id}}][{{$match->matchday}}][{{$match->homeTeamId}}][]"> <span class="delimiter">:</span>
+                                        <input type="text" name="FTawayTeam[{{$match->id}}][{{$match->matchday}}][{{$match->awayTeamId}}][]">
+                                @endif
+                            @endif
+                        </td>
+                        <td class="match__awayteam text-center">{{$match->awayTeamName}}</td>
                         <td class="match__status">
                             @switch($match->status)
                                 @case('FINISHED')
@@ -38,31 +61,6 @@
                                     @break
                             @endswitch
                         </td>
-                        <td class="match__teamname text-center">{{$match->homeTeamName}}</td>
-                        <td class="match__score text-center">
-                            <span>
-                                @if ($match->status == "FINISHED")
-                                    <span class="text-success">
-                                        {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}
-                                    </span>
-                                @elseif ($match->status == "IN_PLAY" || $match->status == "PAUSED" )
-                                    <span class="text-danger blink">
-                                        {{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}
-                                    </span>
-                                @else
-                                    @if (count(Auth::user()->guess->where('schedule_id', $match->id))>0)
-                                        @foreach (Auth::user()->guess->where('schedule_id', $match->id) as $guess)
-                                            <input type="text" name="FThomeTeam[{{$match->id}}][{{$match->matchday}}][{{$match->homeTeamId}}][]" value="{{$guess->FThomeTeam}}"> : 
-                                            <input type="text" name="FTawayTeam[{{$match->id}}][{{$match->matchday}}][{{$match->awayTeamId}}][]" value="{{$guess->FTawayTeam}}">
-                                        @endforeach
-                                    @else
-                                            <input type="text" name="FThomeTeam[{{$match->id}}][{{$match->matchday}}][{{$match->homeTeamId}}][]"> : 
-                                            <input type="text" name="FTawayTeam[{{$match->id}}][{{$match->matchday}}][{{$match->awayTeamId}}][]">
-                                    @endif
-                                @endif
-                            </span>
-                        </td>
-                        <td class="match__teamname text-center">{{$match->awayTeamName}}</td>
                     </tr>
                 @endforeach
             </table>
@@ -82,33 +80,45 @@
         <table class="table-default" id="points">
             <tr class="t-header">
                 <td>Пользователь</td>
-                    @foreach ($schedules as $match)
-                        <td class="p-0">
-                            <ul>
-                                <li>{{$match->homeTeamName}}</li>
-                                <li>{{$match->awayTeamName}}</li>
-                                <li>{{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}</li>
-                            </ul> 
-                        </td>
-                    @endforeach
+                <td class="match_dropdown">
+                    <select id="select-match">
+                        @foreach ($schedules as $match)
+                            <option value="">
+                                {{$match->homeTeamName}} - {{$match->awayTeamName}}
+                            </option>
+                        @endforeach
+                    </select>
+                </td>
+                @foreach ($schedules as $match)
+                    <td class="p-0">
+                        <ul>
+                            <li>{{$match->homeTeamName}}</li>
+                            <li>{{$match->awayTeamName}}</li>
+                            <li>{{$match->score->FThomeTeam}} : {{$match->score->FTawayTeam}}</li>
+                        </ul> 
+                    </td>
+                @endforeach
                 <td>Всего</td>
             </tr>
             @foreach ($users as $user)
                 <tr id="{{$user->id}}">
                     <td>{{$user->name}}</td>
-                    
-                    @foreach ($user->guess->where('matchday', $matchday)->sortBy('utcDate') as $guess)
+                    <td class="match_dropdown_result">
+                        <li>1</li>
+                        <li>2</li>
+                    </td>
+                    @foreach ($user->guess->where('matchday', $matchday) as $guess)
                         <td class="text-center">
-                            @if (Auth::id()==$user->id)
+                            {{-- @if (Auth::id()==$user->id) --}}
                                 <li>{{$guess->FThomeTeam}} : {{$guess->FTawayTeam}}</li>
                                 <li class="point">{{$guess->points ?? '0'}}</li>
-                            @elseif (now() > $guess->utcDate)
+                            {{-- @elseif (now() > $guess->utcDate)
                                 <li>{{$guess->FThomeTeam}} : {{$guess->FTawayTeam}}</li>
                                 <li class="point">{{$guess->points ?? '0'}}</li>
                             @else
                                 <li> : </li>
                                 <li> - </li>
-                            @endif
+                            @endif --}}
                         </td>
                     @endforeach
                     

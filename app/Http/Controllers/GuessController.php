@@ -78,7 +78,11 @@ class GuessController extends Controller
         $users = User::whereHas('guess', function (Builder $query) use ($matchday) {
             $query->where('matchday', $matchday);
         })->get();
-        $schedules = Schedule::where('matchday', $matchday)->with('score')->orderBy('utcDate')->get();
+        $schedules = Schedule::where('matchday', $matchday)
+            ->with('score')
+            ->orderBy('utcDate', 'ASC')
+            ->orderBy('id', 'ASC')
+            ->get();
         $guesses = Guess::where('matchday', $matchday)->get();
 
         
